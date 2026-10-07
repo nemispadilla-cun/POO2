@@ -1,0 +1,16 @@
+# Compilación
+out/
+*.class
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+nbproject/
+build/
+dist/
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
