@@ -1,14 +1,13 @@
-# Compilación
-out/
-*.class
+# Compilacion .NET
+bin/
+obj/
 
 # IDEs
-.idea/
+.vs/
 .vscode/
-*.iml
-nbproject/
-build/
-dist/
+.idea/
+*.user
+*.suo
 
 # Sistema
 Thumbs.db

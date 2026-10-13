@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- net8.0 es LTS y la instalan por defecto Visual Studio 2022 y Rider.
+         Si en tu maquina solo tienes .NET 9 o 10, cambia este valor. -->
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Cun.Poo</RootNamespace>
+    <AssemblyName>POO.Fundamentos</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+</Project>

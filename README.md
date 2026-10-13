@@ -1,21 +1,30 @@
-# POO-Fundamentos · Programación Orientada a Objetos II (Java)
+# POO-Fundamentos-NET - Programacion Orientada a Objetos II (C# / .NET)
 
-Proyecto de apoyo para la clase. Cada **módulo** es una demostración ejecutable, con código comentado en español y un `README.md` con la explicación, preguntas para discutir y un ejercicio propuesto.
+Proyecto de apoyo para la clase, **en C#**. Es el equivalente del proyecto Java
+`POO-Fundamentos`, reorganizado por **temáticas del curso**: cada módulo cubre
+una guía completa y es una demostración ejecutable con código comentado en
+español.
 
-Todo el proyecto usa **un solo dominio**: una universidad con personas, cursos, matrículas, evaluaciones y pagos. Así los conceptos se conectan entre sí en vez de ser ejemplos aislados.
+| # | Módulo | Temática | Conceptos | Tipos clave |
+|---|---|---|---|---|
+| 1 | [Principios avanzados de POO](Modulo01_Principios/README.md) | **G1** | Cohesión alta, bajo acoplamiento, reutilización, SOLID, excepciones | `Factura`, `ServicioAutenticacion`, `ILogger`, `ProcesadorDePagos` |
+| 2 | [Interfaces y clases abstractas](Modulo02_Interfaces/README.md) | **G2** | Contrato vs molde, `default`/`static` en interfaz, template method, Strategy, delegados | `IMetodoDePago`, `Personaje`, `Vehiculo`, `INotificador` |
+| 3 | [Estructuras de datos avanzadas](Modulo03_Colecciones/README.md) | **G3** | `List`, `Stack`, `Queue`, `HashSet`, `Dictionary`, `PriorityQueue`, genéricos, Big O, grafos | `DirectorioEstudiantes`, `Inventario<T>`, `Grafo`, `CalculadoraDeRutas` |
 
 ## Requisitos
-- **JDK 17 o superior** (el código se compila con `--release 17`, así funciona en 17, 21, 26...).
-- Sin Maven, sin Gradle, sin dependencias: solo `javac` y `java`.
+- **SDK de .NET 8 o superior** (`dotnet --version`). Descarga: <https://dotnet.microsoft.com/download>
+- Sin paquetes NuGet: todo sale de la biblioteca estándar.
+
+Si solo tienes .NET 9 o 10, cambia `<TargetFramework>` en `POO.Fundamentos.csproj`.
 
 ## Cómo ejecutar
 
 ### Windows
 ```bat
 compilar.bat
-ejecutar.bat            :: menú interactivo
-ejecutar.bat 3          :: solo el módulo 3
-ejecutar.bat 1 4 7      :: varios módulos
+ejecutar.bat            :: menu interactivo
+ejecutar.bat 3          :: solo el modulo 3
+ejecutar.bat 1 2        :: varios modulos
 ejecutar.bat todos      :: todos en orden
 ```
 
@@ -23,53 +32,67 @@ ejecutar.bat todos      :: todos en orden
 ```bash
 chmod +x *.sh
 ./compilar.sh
-./ejecutar.sh           # menú interactivo
 ./ejecutar.sh 3
-./ejecutar.sh todos
 ```
 
-### Desde un IDE (IntelliJ, Eclipse, VS Code, NetBeans)
-Abre la carpeta como proyecto Java, marca `src` como carpeta de fuentes y ejecuta `co.edu.cun.poo.Main`.
-
-## Módulos
-
-| # | Módulo | Conceptos | Clases clave |
-|---|---|---|---|
-| 01 | [Clases y objetos](src/co/edu/cun/poo/modulo01_clases/README.md) | Clase vs objeto, atributos, constructores, `this`, `static`, referencias | `Estudiante` |
-| 02 | [Encapsulamiento](src/co/edu/cun/poo/modulo02_encapsulamiento/README.md) | `private`, getters/setters con validación, invariantes, inmutabilidad, `record` | `Calificacion`, `Documento` |
-| 03 | [Herencia](src/co/edu/cun/poo/modulo03_herencia/README.md) | `extends`, `super`, `protected`, `@Override`, multinivel, `equals`/`hashCode` | `Persona` → `Estudiante`, `Docente` → `DocenteInvestigador` |
-| 04 | [Polimorfismo](src/co/edu/cun/poo/modulo04_polimorfismo/README.md) | Sobreescritura vs sobrecarga, enlace dinámico, casting, `instanceof` | `LiquidadorNomina` |
-| 05 | [Abstracción](src/co/edu/cun/poo/modulo05_abstraccion/README.md) | `abstract`, template method, interfaces, `default`, `sealed` | `Evaluacion`, `Entregable`, `EstadoMatricula` |
-| 06 | [Composición](src/co/edu/cun/poo/modulo06_composicion/README.md) | Tiene-un, composición vs agregación, delegación, vistas de solo lectura | `Universidad`, `Curso`, `Horario` |
-| 07 | [Colecciones y genéricos](src/co/edu/cun/poo/modulo07_colecciones/README.md) | `List`/`Set`/`Map`, `<T extends ...>`, `Optional`, `Comparator`, streams | `Repositorio<T>`, `Par<A,B>` |
-| 08 | [Excepciones](src/co/edu/cun/poo/modulo08_excepciones/README.md) | checked vs unchecked, jerarquía propia, `finally`, try-with-resources, causa | `MatriculaException`, `Grupo` |
-| 09 | [Caso integrador](src/co/edu/cun/poo/modulo09_integrador/README.md) | Todo lo anterior junto + Strategy con lambdas | `SistemaMatriculas`, `Matricula`, `PoliticaDescuento` |
-| 10 | [Principios avanzados de POO](src/co/edu/cun/poo/modulo10_principios/README.md) · **Temática 1 (G1)** | Cohesión alta, bajo acoplamiento, reutilización, SOLID, manejo de excepciones | `Factura`, `ServicioAutenticacion`, `Logger`, `ProcesadorDePagos` |
-| 11 | [Interfaces y clases abstractas](src/co/edu/cun/poo/modulo11_interfaces/README.md) · **Temática 2 (G2)** | Contrato vs molde, `default`/`static`, template method, herencia + implementación múltiple, Strategy, interfaces funcionales | `MetodoDePago`, `Personaje`, `Vehiculo`, `EstrategiaDeTransporte`, `Notificador` |
-
-> **Para la clase de la Temática 1 (recurso G1):** ejecutar `ejecutar.bat 10`. Los módulos 1 a 9 son el repaso de fundamentos que ese material da por sabidos (encapsulamiento, herencia, polimorfismo, interfaces, excepciones) y sirven de apoyo cuando haga falta volver atrás.
->
-> **Para la clase de la Temática 2 (recurso G2):** ejecutar `ejecutar.bat 11`. El módulo 5 (abstracción) es el repaso previo; el módulo 11 retoma esos mecanismos con los ejemplos del documento maestro (pagos en Colombia, personajes de videojuego, flota de EntregaYa y notificaciones con lambdas).
-
-## Estructura
+### Sin scripts
+```bash
+dotnet run -- 3
 ```
-POO-Fundamentos/
-├── compilar.bat / compilar.sh
-├── ejecutar.bat / ejecutar.sh
-├── README.md
-└── src/co/edu/cun/poo/
-    ├── Main.java                 (menú: List<Modulo>, polimorfismo en acción)
-    ├── Modulo.java               (interfaz que cumple cada demo)
-    ├── modulo01_clases/
-    ├── modulo02_encapsulamiento/
-    ├── ...
-    ├── modulo10_principios/
-    └── modulo11_interfaces/
+
+### Desde un IDE
+Abre la carpeta con **Visual Studio 2022**, **Visual Studio Code** (extensión
+C# Dev Kit) o **Rider**. El punto de entrada es `Program.cs`.
+
+## Arquitectura del proyecto
+
 ```
+POO-Fundamentos-NET/
+├── POO.Fundamentos.csproj
+├── Program.cs                (menu: List<IModulo>, polimorfismo en accion)
+├── IModulo.cs                (el CONTRATO que cumple cada modulo)
+├── ModuloBase.cs             (el MOLDE: codigo compartido por los modulos)
+├── Dinero.cs                 (formato de pesos colombianos)
+├── Modulo01_Principios/      -> G1
+├── Modulo02_Interfaces/      -> G2
+└── Modulo03_Colecciones/     -> G3
+```
+
+El propio menú es un ejemplo de lo que enseña: `Program` no conoce ninguna clase
+`DemoXX`, solo la interfaz `IModulo`. Y `ModuloBase` es la clase abstracta que
+evita que los tres módulos repitan los métodos `Seccion` y `Nota`. Es decir, la
+Temática 2 está aplicada en la estructura misma del proyecto.
+
+## De Java a C#: tabla de equivalencias
+
+Este proyecto reemplaza al de Java. Si vienes del código anterior:
+
+| Java | C# | Nota |
+|---|---|---|
+| `interface Logger` | `interface ILogger` | En .NET las interfaces se nombran con `I` inicial |
+| `default void metodo()` | `void Metodo() => ...` en la interfaz | C# 8+; solo visible por referencia de interfaz |
+| `static` en interfaz | `static` en interfaz | Igual |
+| `@Override` | `override` | En C# el método base debe ser `virtual` o `abstract` |
+| `final` (método) | método **no** `virtual` | En C# lo normal es que NO se pueda sobreescribir |
+| `record Punto(int x)` | `record Punto(int X)` | Igual |
+| `getter/setter` | **propiedades** `{ get; set; }` | Idioma propio de C# |
+| `ArrayList` / `List` | `List<T>` | |
+| `LinkedList` | `LinkedList<T>` | |
+| `HashMap` / `Map` | `Dictionary<K,V>` / `IDictionary<K,V>` | |
+| `TreeMap` | `SortedDictionary<K,V>` | |
+| `HashSet` / `Set` | `HashSet<T>` / `ISet<T>` | |
+| `Queue` (con `LinkedList`) | `Queue<T>` | En C# es una clase propia |
+| `Stack` | `Stack<T>` | |
+| `PriorityQueue<T>` | `PriorityQueue<TElement,TPriority>` | En C# la prioridad va aparte |
+| `@FunctionalInterface` + lambda | **delegado** `Action` / `Func` + lambda | C# no necesita anotación |
+| `Optional<T>` | `T?` + `TryGetValue` | Tipos de referencia anulables |
+| `System.out.println` | `Console.WriteLine` | |
+| `String.format` | interpolación `$"..."` | |
+| `List<X> l = new ArrayList<>()` | `List<X> l = [];` | Expresión de colección, C# 12 |
+| paquete `co.edu.cun.poo` | namespace `Cun.Poo` | |
 
 ## Sugerencia de uso en clase
-1. Ejecutar el módulo del día con `ejecutar.bat N` y leer la salida junto con el código.
-2. Cambiar algo en vivo (quitar un `@Override`, hacer público un atributo, invertir dos `catch`) y volver a compilar para ver qué pasa.
+1. Ejecutar el módulo del día con `ejecutar.bat N` y leer la salida junto al código.
+2. Cambiar algo en vivo (quitar un `override`, instanciar una clase abstracta,
+   cambiar un `Dictionary` por una `List`) y volver a compilar para ver qué pasa.
 3. Dejar el **ejercicio propuesto** del README del módulo como taller.
-
-El propio `Main` es un ejemplo: no conoce ninguna clase `DemoXX` por dentro, solo la interfaz `Modulo`. Agregar un módulo nuevo es crear una clase que implemente `Modulo` y añadirla a la lista.
