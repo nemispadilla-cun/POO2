@@ -15,7 +15,8 @@ public class Demo03Colecciones : ModuloBase
     {
         // ====================================================================
         Seccion("1. LIST<T>: orden de insercion, duplicados y acceso por indice");
-        var compras = new ListaDeCompras();
+        //var compras = new ListaDeCompras();
+        ListaDeCompras compras = new ListaDeCompras();
         compras.Agregar("Pan");
         compras.Agregar("Leche");
         compras.Agregar("Huevos");

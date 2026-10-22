@@ -1,7 +1,7 @@
 namespace Cun.Poo.Modulo01Principios;
 
 /// <summary>Para aplicaciones de escritorio o servidor.</summary>
-public class LoggerConsola(string aplicacion) : ILogger
+public class LoggerConsola(string? aplicacion = null) : ILogger
 {
     public void Info(string mensaje) =>
         Console.WriteLine($"   [{aplicacion}] {mensaje}");

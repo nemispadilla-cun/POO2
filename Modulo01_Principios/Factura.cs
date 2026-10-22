@@ -26,7 +26,7 @@ public class Factura
     /// <summary>Vista de solo lectura: nadie puede modificar la lista por fuera.</summary>
     public IReadOnlyList<LineaFactura> Lineas => _lineas;
 
-    public void AgregarLinea(string descripcion, int cantidad, decimal valorUnitario)
+    public void AgregarLinea(string descripcion, int cantidad, long valorUnitario)
     {
         _lineas.Add(new LineaFactura(descripcion, cantidad, valorUnitario));
     }

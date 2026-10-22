@@ -14,13 +14,14 @@ public class Demo01Principios : ModuloBase
     public override void Ejecutar()
     {
         ILogger logger = new LoggerConsola("app");
+        ILogger loggerMemoria = new LoggerMemoria();
 
         // ====================================================================
         Seccion("1. COHESION ALTA: la clase Factura solo sabe de facturas");
         var factura = new Factura("F-0001", "Ana Torres");
-        factura.AgregarLinea("Matricula POO II (4 creditos)", 1, 720_000m);
-        factura.AgregarLinea("Carne estudiantil", 1, 15_000m);
-        factura.AgregarLinea("Guia de laboratorio", 2, 12_500m);
+        factura.AgregarLinea("Matricula POO II (4 creditos)", 1, 720000);
+        factura.AgregarLinea("Carne estudiantil", 1, 15000);
+        factura.AgregarLinea("Guia de laboratorio", 2, 12500);
         factura.AplicarDescuento(0.10m);
         Console.WriteLine(factura.GenerarResumen());
 
@@ -74,13 +75,14 @@ public class Demo01Principios : ModuloBase
         ];
 
         var aprobados = new List<string>();
-        foreach (Pago pago in pagos)
+
+        foreach (Pago pg in pagos)
         {
-            string respuesta = procesador.Procesar(pago);
-            Console.WriteLine($"   Usuario ve -> {pago.Referencia}: {respuesta}");
+            string respuesta = procesador.Procesar(pg);
+            Console.WriteLine($"   Usuario ve -> {pg.Referencia}: {respuesta}");
             if (respuesta.StartsWith("Pago aprobado", StringComparison.Ordinal))
             {
-                aprobados.Add(pago.Referencia);
+                aprobados.Add(pg.Referencia);
             }
         }
         Console.WriteLine("   Pagos aprobados: [" + string.Join(", ", aprobados) + "]");

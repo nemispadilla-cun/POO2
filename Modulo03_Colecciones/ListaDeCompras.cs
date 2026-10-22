@@ -28,3 +28,4 @@ public class ListaDeCompras
 
     public override string ToString() => "[" + string.Join(", ", _productos) + "]";
 }
+

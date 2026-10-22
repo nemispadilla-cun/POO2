@@ -45,6 +45,8 @@ public class Demo02Interfaces : ModuloBase
             new Arquero("Nayeli"),
         ];
 
+        Personaje mago = new Mago("Elara 2");
+
         foreach (Personaje p in party)
         {
             p.JugarTurno("el norte");           // template method heredado

@@ -21,4 +21,13 @@ public class ServicioAutenticacion(IRepositorioUsuarios repositorio, ILogger log
         logger.Info($"Autenticacion de {usuario} en {repositorio.Tecnologia}: {(ok ? "OK" : "FALLIDA")}");
         return ok;
     }
+
+    void consultar()
+    {
+        Autenticar("ana", "cun2026");
+        Autenticar("ana", "malaclave");
+        Autenticar("luis", "poo-rocks");
+        Autenticar("luis", "otra");
+        Autenticar("pepe", "noexiste");
+    }
 }

@@ -15,5 +15,8 @@ public interface ILogger
     /// heredan sin escribirlo. Ojo: solo es visible a traves de una
     /// referencia de tipo ILogger.
     /// </summary>
-    void Advertencia(string mensaje) => Info("ADVERTENCIA: " + mensaje);
+    //void Advertencia(string mensaje) => Info("ADVERTENCIA: " + mensaje);
+    void Advertencia(string mensaje) {
+        Info("ADVERTENCIA: " + mensaje);
+    }
 }
