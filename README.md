@@ -10,6 +10,7 @@ español.
 | 1 | [Principios avanzados de POO](Modulo01_Principios/README.md) | **G1** | Cohesión alta, bajo acoplamiento, reutilización, SOLID, excepciones | `Factura`, `ServicioAutenticacion`, `ILogger`, `ProcesadorDePagos` |
 | 2 | [Interfaces y clases abstractas](Modulo02_Interfaces/README.md) | **G2** | Contrato vs molde, `default`/`static` en interfaz, template method, Strategy, delegados | `IMetodoDePago`, `Personaje`, `Vehiculo`, `INotificador` |
 | 3 | [Estructuras de datos avanzadas](Modulo03_Colecciones/README.md) | **G3** | `List`, `Stack`, `Queue`, `HashSet`, `Dictionary`, `PriorityQueue`, genéricos, Big O, grafos | `DirectorioEstudiantes`, `Inventario<T>`, `Grafo`, `CalculadoraDeRutas` |
+| 4 | [Patrones de diseño](Modulo04_Patrones/README.md) | **G4** | Singleton, Factory Method, Builder, Adapter, Composite, Decorator, Observer, Strategy | `AppConfig`, `GeneradorReporte`, `WompiAdapter`, `CajaRegistradora` |
 
 ## Requisitos
 - **SDK de .NET 8 o superior** (`dotnet --version`). Descarga: <https://dotnet.microsoft.com/download>
@@ -55,12 +56,13 @@ POO-Fundamentos-NET/
 ├── Dinero.cs                 (formato de pesos colombianos)
 ├── Modulo01_Principios/      -> G1
 ├── Modulo02_Interfaces/      -> G2
-└── Modulo03_Colecciones/     -> G3
+├── Modulo03_Colecciones/     -> G3
+└── Modulo04_Patrones/        -> G4 (Creacionales/, Estructurales/, Comportamiento/)
 ```
 
 El propio menú es un ejemplo de lo que enseña: `Program` no conoce ninguna clase
 `DemoXX`, solo la interfaz `IModulo`. Y `ModuloBase` es la clase abstracta que
-evita que los tres módulos repitan los métodos `Seccion` y `Nota`. Es decir, la
+evita que los cuatro módulos repitan los métodos `Seccion` y `Nota`. Es decir, la
 Temática 2 está aplicada en la estructura misma del proyecto.
 
 ## De Java a C#: tabla de equivalencias
@@ -86,6 +88,8 @@ Este proyecto reemplaza al de Java. Si vienes del código anterior:
 | `PriorityQueue<T>` | `PriorityQueue<TElement,TPriority>` | En C# la prioridad va aparte |
 | `@FunctionalInterface` + lambda | **delegado** `Action` / `Func` + lambda | C# no necesita anotación |
 | `Optional<T>` | `T?` + `TryGetValue` | Tipos de referencia anulables |
+| `getInstance()` (Singleton) | propiedad `Instancia` + `Lazy<T>` | Seguro con varios hilos |
+| `Observable` / `Observer` | `event` + delegado | Observer incorporado al lenguaje |
 | `System.out.println` | `Console.WriteLine` | |
 | `String.format` | interpolación `$"..."` | |
 | `List<X> l = new ArrayList<>()` | `List<X> l = [];` | Expresión de colección, C# 12 |

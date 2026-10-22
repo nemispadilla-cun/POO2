@@ -12,4 +12,12 @@
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Configuracion que lee el Singleton AppConfig del modulo 4 (G4).
+         Se copia junto al ejecutable conservando la ruta relativa. -->
+    <None Update="Modulo04_Patrones\Creacionales\microcreditos.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

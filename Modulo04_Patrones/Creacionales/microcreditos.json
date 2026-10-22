@@ -1,0 +1,8 @@
+{
+  "Aplicacion": "MicroCredito Ya - fintech de microcreditos",
+  "CentralRiesgo.Url": "https://api.central-riesgo.example/v2/consultas",
+  "CentralRiesgo.ApiKey": "demo-cr-7F3A9C21-no-es-una-clave-real",
+  "BaseDatos.Cadena": "Server=db-cartera;Database=Microcreditos;User=app",
+  "Credito.TasaMensual": "0.019",
+  "Reportes.FormatoPorDefecto": "PDF"
+}
