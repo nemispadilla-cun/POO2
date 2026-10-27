@@ -11,10 +11,12 @@ español.
 | 2 | [Interfaces y clases abstractas](Modulo02_Interfaces/README.md) | **G2** | Contrato vs molde, `default`/`static` en interfaz, template method, Strategy, delegados | `IMetodoDePago`, `Personaje`, `Vehiculo`, `INotificador` |
 | 3 | [Estructuras de datos avanzadas](Modulo03_Colecciones/README.md) | **G3** | `List`, `Stack`, `Queue`, `HashSet`, `Dictionary`, `PriorityQueue`, genéricos, Big O, grafos | `DirectorioEstudiantes`, `Inventario<T>`, `Grafo`, `CalculadoraDeRutas` |
 | 4 | [Patrones de diseño](Modulo04_Patrones/README.md) | **G4** | Singleton, Factory Method, Builder, Adapter, Composite, Decorator, Observer, Strategy | `AppConfig`, `GeneradorReporte`, `WompiAdapter`, `CajaRegistradora` |
+| 5 | [Interfaces gráficas](Modulo05_GUI/README.md) | **G5** | Programación dirigida por eventos, componentes, contenedores, layouts, MVC, Windows Forms | `Boton`, `LayoutRejilla`, `ControladorCalculadora`, `FormCalculadora` |
 
 ## Requisitos
 - **SDK de .NET 8 o superior** (`dotnet --version`). Descarga: <https://dotnet.microsoft.com/download>
 - Sin paquetes NuGet: todo sale de la biblioteca estándar.
+- La ventana del módulo 5 (`ventana.bat`) usa Windows Forms, así que solo abre en **Windows**. El resto del proyecto funciona en cualquier sistema.
 
 Si solo tienes .NET 9 o 10, cambia `<TargetFramework>` en `POO.Fundamentos.csproj`.
 
@@ -27,6 +29,7 @@ ejecutar.bat            :: menu interactivo
 ejecutar.bat 3          :: solo el modulo 3
 ejecutar.bat 1 2        :: varios modulos
 ejecutar.bat todos      :: todos en orden
+ventana.bat             :: ventana de Windows Forms del modulo 5
 ```
 
 ### Linux / macOS / Git Bash
@@ -54,15 +57,17 @@ POO-Fundamentos-NET/
 ├── IModulo.cs                (el CONTRATO que cumple cada modulo)
 ├── ModuloBase.cs             (el MOLDE: codigo compartido por los modulos)
 ├── Dinero.cs                 (formato de pesos colombianos)
+├── ventana.bat               (abre la ventana de Windows Forms del modulo 5)
 ├── Modulo01_Principios/      -> G1
 ├── Modulo02_Interfaces/      -> G2
 ├── Modulo03_Colecciones/     -> G3
-└── Modulo04_Patrones/        -> G4 (Creacionales/, Estructurales/, Comportamiento/)
+├── Modulo04_Patrones/        -> G4 (Creacionales/, Estructurales/, Comportamiento/)
+└── Modulo05_GUI/             -> G5 (Componentes/, Mvc/, PuntoDeVenta/, CalculadoraWinForms/)
 ```
 
 El propio menú es un ejemplo de lo que enseña: `Program` no conoce ninguna clase
 `DemoXX`, solo la interfaz `IModulo`. Y `ModuloBase` es la clase abstracta que
-evita que los cuatro módulos repitan los métodos `Seccion` y `Nota`. Es decir, la
+evita que los cinco módulos repitan los métodos `Seccion` y `Nota`. Es decir, la
 Temática 2 está aplicada en la estructura misma del proyecto.
 
 ## De Java a C#: tabla de equivalencias
@@ -90,6 +95,8 @@ Este proyecto reemplaza al de Java. Si vienes del código anterior:
 | `Optional<T>` | `T?` + `TryGetValue` | Tipos de referencia anulables |
 | `getInstance()` (Singleton) | propiedad `Instancia` + `Lazy<T>` | Seguro con varios hilos |
 | `Observable` / `Observer` | `event` + delegado | Observer incorporado al lenguaje |
+| `JFrame` / `JButton` (Swing) | `Form` / `Button` (Windows Forms) | Ver tabla completa en el módulo 5 |
+| `addActionListener(...)` | `boton.Click += Manejador;` | Eventos de C# |
 | `System.out.println` | `Console.WriteLine` | |
 | `String.format` | interpolación `$"..."` | |
 | `List<X> l = new ArrayList<>()` | `List<X> l = [];` | Expresión de colección, C# 12 |

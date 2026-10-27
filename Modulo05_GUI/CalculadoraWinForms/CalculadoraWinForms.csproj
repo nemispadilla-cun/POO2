@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Proyecto aparte porque Windows Forms solo existe en Windows y el
+       proyecto principal del curso debe compilar en cualquier sistema. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>Cun.Poo.Modulo05Gui.CalculadoraWinForms</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- MVC: el MODELO y el CONTROLADOR son los MISMOS archivos que usa la
+         demo de consola. No se copian: se enlazan. -->
+    <Compile Include="..\Mvc\CalculadoraLogica.cs" Link="Mvc\CalculadoraLogica.cs" />
+    <Compile Include="..\Mvc\ControladorCalculadora.cs" Link="Mvc\ControladorCalculadora.cs" />
+    <Compile Include="..\Mvc\ICalculadoraVista.cs" Link="Mvc\ICalculadoraVista.cs" />
+  </ItemGroup>
+
+</Project>

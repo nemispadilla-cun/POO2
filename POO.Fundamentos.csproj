@@ -20,4 +20,11 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- La ventana del modulo 5 (G5) es otro proyecto, solo para Windows.
+         Se excluye para que este proyecto no compile sus archivos. -->
+    <Compile Remove="Modulo05_GUI\CalculadoraWinForms\**" />
+    <None Remove="Modulo05_GUI\CalculadoraWinForms\**" />
+  </ItemGroup>
+
 </Project>

@@ -5,6 +5,7 @@ using Cun.Poo.Modulo01Principios;
 using Cun.Poo.Modulo02Interfaces;
 using Cun.Poo.Modulo03Colecciones;
 using Cun.Poo.Modulo04Patrones;
+using Cun.Poo.Modulo05Gui;
 
 // Punto de entrada del proyecto.
 //
@@ -23,6 +24,7 @@ List<IModulo> modulos =
     new Demo02Interfaces(),
     new Demo03Colecciones(),
     new Demo04Patrones(),
+    new Demo05Gui(),
 ];
 
 if (args.Length > 0)
