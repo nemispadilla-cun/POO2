@@ -12,10 +12,11 @@ español.
 | 3 | [Estructuras de datos avanzadas](Modulo03_Colecciones/README.md) | **G3** | `List`, `Stack`, `Queue`, `HashSet`, `Dictionary`, `PriorityQueue`, genéricos, Big O, grafos | `DirectorioEstudiantes`, `Inventario<T>`, `Grafo`, `CalculadoraDeRutas` |
 | 4 | [Patrones de diseño](Modulo04_Patrones/README.md) | **G4** | Singleton, Factory Method, Builder, Adapter, Composite, Decorator, Observer, Strategy | `AppConfig`, `GeneradorReporte`, `WompiAdapter`, `CajaRegistradora` |
 | 5 | [Interfaces gráficas](Modulo05_GUI/README.md) | **G5** | Programación dirigida por eventos, componentes, contenedores, layouts, MVC, Windows Forms | `Boton`, `LayoutRejilla`, `ControladorCalculadora`, `FormCalculadora` |
+| 6 | [Persistencia de datos](Modulo06_Persistencia/README.md) | **G6** | Serialización JSON/XML/CSV, ORM, CRUD, LINQ vs SQL, transacciones, patrón DAO | `ArchivoJson`, `CursoDbContext`, `ServicioCompra`, `IReservaDao` |
 
 ## Requisitos
 - **SDK de .NET 8 o superior** (`dotnet --version`). Descarga: <https://dotnet.microsoft.com/download>
-- Sin paquetes NuGet: todo sale de la biblioteca estándar.
+- Un solo paquete NuGet, desde el módulo 6: **Entity Framework Core con SQLite** (el ORM). `dotnet build` lo descarga solo la primera vez, así que esa primera compilación necesita internet. El resto sale de la biblioteca estándar.
 - La ventana del módulo 5 (`ventana.bat`) usa Windows Forms, así que solo abre en **Windows**. El resto del proyecto funciona en cualquier sistema.
 
 Si solo tienes .NET 9 o 10, cambia `<TargetFramework>` en `POO.Fundamentos.csproj`.
@@ -62,12 +63,13 @@ POO-Fundamentos-NET/
 ├── Modulo02_Interfaces/      -> G2
 ├── Modulo03_Colecciones/     -> G3
 ├── Modulo04_Patrones/        -> G4 (Creacionales/, Estructurales/, Comportamiento/)
-└── Modulo05_GUI/             -> G5 (Componentes/, Mvc/, PuntoDeVenta/, CalculadoraWinForms/)
+├── Modulo05_GUI/             -> G5 (Componentes/, Mvc/, PuntoDeVenta/, CalculadoraWinForms/)
+└── Modulo06_Persistencia/    -> G6 (Archivos/, Entidades/, Datos/, Tienda/, Reservas/)
 ```
 
 El propio menú es un ejemplo de lo que enseña: `Program` no conoce ninguna clase
 `DemoXX`, solo la interfaz `IModulo`. Y `ModuloBase` es la clase abstracta que
-evita que los cinco módulos repitan los métodos `Seccion` y `Nota`. Es decir, la
+evita que los seis módulos repitan los métodos `Seccion` y `Nota`. Es decir, la
 Temática 2 está aplicada en la estructura misma del proyecto.
 
 ## De Java a C#: tabla de equivalencias
@@ -97,6 +99,9 @@ Este proyecto reemplaza al de Java. Si vienes del código anterior:
 | `Observable` / `Observer` | `event` + delegado | Observer incorporado al lenguaje |
 | `JFrame` / `JButton` (Swing) | `Form` / `Button` (Windows Forms) | Ver tabla completa en el módulo 5 |
 | `addActionListener(...)` | `boton.Click += Manejador;` | Eventos de C# |
+| Gson | `System.Text.Json` | Incluido en .NET |
+| Hibernate / JPA (`EntityManager`) | Entity Framework Core (`DbContext`) | Ver tabla completa en el módulo 6 |
+| HQL | LINQ | Consultas sobre clases, revisadas por el compilador |
 | `System.out.println` | `Console.WriteLine` | |
 | `String.format` | interpolación `$"..."` | |
 | `List<X> l = new ArrayList<>()` | `List<X> l = [];` | Expresión de colección, C# 12 |

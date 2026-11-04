@@ -21,6 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Modulo 6 (G6): el ORM de .NET (equivalente de Hibernate/JPA) con SQLite,
+         una base de datos en un solo archivo que no necesita servidor.
+         Es el unico paquete NuGet del curso; dotnet build lo descarga solo. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- La ventana del modulo 5 (G5) es otro proyecto, solo para Windows.
          Se excluye para que este proyecto no compile sus archivos. -->
     <Compile Remove="Modulo05_GUI\CalculadoraWinForms\**" />
