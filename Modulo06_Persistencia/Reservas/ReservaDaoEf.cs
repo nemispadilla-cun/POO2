@@ -36,5 +36,5 @@ public class ReservaDaoEf : IReservaDao
     /// Se expone como IQueryable para poder mostrar el SQL que genera.
     /// </summary>
     public IQueryable<Reserva> ConsultaPorViaje(int viajeId) =>
-        _db.Reservas.Where(r => r.Viaje!.Id == viajeId).OrderBy(r => r.Silla);
+        _db.Reservas.Where(d => d.Viaje!.Id == viajeId).OrderBy(r => r.Silla);
 }
