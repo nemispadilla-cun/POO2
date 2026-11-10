@@ -15,9 +15,16 @@ español.
 | 6 | [Persistencia de datos](Modulo06_Persistencia/README.md) | **G6** | Serialización JSON/XML/CSV, ORM, CRUD, LINQ vs SQL, transacciones, patrón DAO | `ArchivoJson`, `CursoDbContext`, `ServicioCompra`, `IReservaDao` |
 | 7 | [Conexión y consumo de APIs](Modulo07_Apis/README.md) | **G7** | HTTP y REST, `HttpClient`, JSON ↔ objetos, CRUD, códigos de estado, reintentos, OAuth2, datos abiertos | `ClienteUsuarios`, `ManejadorReintentos`, `GestorRutas`, `ClienteTrm` |
 
+El repositorio tiene **dos ejecutables**, agrupados en `POO2.sln`:
+
+| Proyecto | Tipo | Para qué |
+|---|---|---|
+| `POO.Fundamentos.csproj` (raíz) | Consola | Los módulos 1 a 7 (`ejecutar.bat N`) |
+| [`CunExpressApi/`](CunExpressApi/README.md) | Aplicación web ASP.NET Core (Web API) | El servidor REST que consume el módulo 7 (`api.bat`) |
+
 ## Requisitos
 - **SDK de .NET 8 o superior** (`dotnet --version`). Descarga: <https://dotnet.microsoft.com/download>
-- Un solo paquete NuGet, desde el módulo 6: **Entity Framework Core con SQLite** (el ORM). `dotnet build` lo descarga solo la primera vez, así que esa primera compilación necesita internet. El resto sale de la biblioteca estándar (también el cliente HTTP del módulo 7). La sección 8 del módulo 7 usa internet solo si se activa con `POO2_EN_VIVO=1`.
+- Paquetes NuGet: **Entity Framework Core con SQLite** (el ORM, desde el módulo 6) y **Swashbuckle** (Swagger, solo en `CunExpressApi`). `dotnet build` lo descarga solo la primera vez, así que esa primera compilación necesita internet. El resto sale de la biblioteca estándar (también el cliente HTTP del módulo 7). La sección 8 del módulo 7 usa internet solo si se activa con `POO2_EN_VIVO=1`.
 - La ventana del módulo 5 (`ventana.bat`) usa Windows Forms, así que solo abre en **Windows**. El resto del proyecto funciona en cualquier sistema.
 
 Si solo tienes .NET 9 o 10, cambia `<TargetFramework>` en `POO.Fundamentos.csproj`.
@@ -32,6 +39,7 @@ ejecutar.bat 3          :: solo el modulo 3
 ejecutar.bat 1 2        :: varios modulos
 ejecutar.bat todos      :: todos en orden
 ventana.bat             :: ventana de Windows Forms del modulo 5
+api.bat                 :: Web API del modulo 7 (dejarla abierta y, en otra terminal, ejecutar.bat 7)
 ```
 
 ### Linux / macOS / Git Bash
@@ -47,26 +55,32 @@ dotnet run -- 3
 ```
 
 ### Desde un IDE
-Abre la carpeta con **Visual Studio 2022**, **Visual Studio Code** (extensión
-C# Dev Kit) o **Rider**. El punto de entrada es `Program.cs`.
+Abre **`POO2.sln`** con **Visual Studio 2022**, **Visual Studio Code** (extensión
+C# Dev Kit) o **Rider**. El punto de entrada de la consola es `Program.cs`; el de
+la Web API, `CunExpressApi/Program.cs`. Para el módulo 7 configura los **dos**
+como proyectos de inicio.
 
 ## Arquitectura del proyecto
 
 ```
 POO-Fundamentos-NET/
-├── POO.Fundamentos.csproj
+├── POO2.sln                  (los dos ejecutables: consola + Web API)
+├── POO.Fundamentos.csproj    (ejecutable 1: la consola con los modulos)
 ├── Program.cs                (menu: List<IModulo>, polimorfismo en accion)
 ├── IModulo.cs                (el CONTRATO que cumple cada modulo)
 ├── ModuloBase.cs             (el MOLDE: codigo compartido por los modulos)
 ├── Dinero.cs                 (formato de pesos colombianos)
 ├── ventana.bat               (abre la ventana de Windows Forms del modulo 5)
+├── api.bat                   (arranca la Web API del modulo 7)
 ├── Modulo01_Principios/      -> G1
 ├── Modulo02_Interfaces/      -> G2
 ├── Modulo03_Colecciones/     -> G3
 ├── Modulo04_Patrones/        -> G4 (Creacionales/, Estructurales/, Comportamiento/)
 ├── Modulo05_GUI/             -> G5 (Componentes/, Mvc/, PuntoDeVenta/, CalculadoraWinForms/)
 ├── Modulo06_Persistencia/    -> G6 (Archivos/, Entidades/, Datos/, Tienda/, Reservas/)
-└── Modulo07_Apis/           -> G7 (Servidor/, Modelos/, Clientes/, CunExpress/, Taller/)
+├── Modulo07_Apis/            -> G7, el CLIENTE (Modelos/, Clientes/, CunExpress/, Taller/)
+└── CunExpressApi/            -> G7, el SERVIDOR: ejecutable 2, ASP.NET Core Web API
+                                 (Controllers/, Modelos/, Servicios/, Filtros/)
 ```
 
 El propio menú es un ejemplo de lo que enseña: `Program` no conoce ninguna clase

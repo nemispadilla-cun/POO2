@@ -1,0 +1,52 @@
+### Solicitudes de prueba para la API de CunExpress (G7).
+### Se ejecutan desde Visual Studio 2022 o VS Code (extension REST Client):
+### clic en "Send Request" sobre cada una. Primero arranca la API con api.bat.
+
+@api = http://localhost:5070
+
+### Listar usuarios
+GET {{api}}/api/usuarios
+Accept: application/json
+
+### Un usuario
+GET {{api}}/api/usuarios/1
+
+### Crear (201 Created + Location)
+POST {{api}}/api/usuarios
+Content-Type: application/json
+
+{ "nombre": "Sofia Medina", "email": "sofia.medina@cun.edu.co", "ciudad": "Tunja" }
+
+### Crear con un email malo (400 Bad Request)
+POST {{api}}/api/usuarios
+Content-Type: application/json
+
+{ "nombre": "Pedro Paramo", "email": "pedro.cun.edu.co" }
+
+### Actualizar (PUT reemplaza todo el recurso)
+PUT {{api}}/api/usuarios/1
+Content-Type: application/json
+
+{ "nombre": "Ana Rojas", "email": "ana.rojas@cun.edu.co", "ciudad": "Villavicencio" }
+
+### Borrar (204 No Content)
+DELETE {{api}}/api/usuarios/3
+
+### Pedidos sin token (401)
+GET {{api}}/api/pedidos
+
+### Pedir un token OAuth2
+POST {{api}}/oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id=cunexpress-app&client_secret=secreto-de-demo
+
+### Pedidos con token: pega aqui el access_token de la respuesta anterior
+GET {{api}}/api/pedidos
+Authorization: Bearer PEGA_AQUI_EL_TOKEN
+
+### Clima de una zona
+GET {{api}}/api/clima?zona=Chapinero
+
+### Publicaciones
+GET {{api}}/api/posts

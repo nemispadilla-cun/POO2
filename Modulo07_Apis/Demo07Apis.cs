@@ -6,7 +6,6 @@ using System.Text.Json;
 using Cun.Poo.Modulo07Apis.Clientes;
 using Cun.Poo.Modulo07Apis.CunExpress;
 using Cun.Poo.Modulo07Apis.Modelos;
-using Cun.Poo.Modulo07Apis.Servidor;
 using Cun.Poo.Modulo07Apis.Taller;
 
 namespace Cun.Poo.Modulo07Apis;
@@ -14,9 +13,12 @@ namespace Cun.Poo.Modulo07Apis;
 /// <summary>
 /// Tematica 7 (G7): conexion y consumo de APIs REST.
 ///
-/// La demo levanta una API local (ServidorApiLocal, "la cocina") y la consume
-/// con HttpClient, el equivalente en .NET del java.net.http.HttpClient del
-/// recurso. Asi la clase funciona sin internet y la salida es repetible.
+/// Esta demo es el CLIENTE. El SERVIDOR es otro proyecto, una Web API de
+/// ASP.NET Core (CunExpressApi/ en la raiz del repo), que se arranca aparte con
+/// api.bat: dos programas distintos que solo se hablan por HTTP y JSON.
+/// Se consume con HttpClient, el equivalente en .NET del
+/// java.net.http.HttpClient del recurso.
+///
 /// La seccion 8 llama a APIs reales (JSONPlaceholder y la TRM de datos.gov.co)
 /// solo si se define la variable de entorno POO2_EN_VIVO=1.
 /// </summary>
@@ -30,22 +32,30 @@ public class Demo07Apis : ModuloBase
 
     private static readonly string CarpetaDatos = Path.Combine(AppContext.BaseDirectory, "datos");
 
+    /// <summary>Credenciales OAuth2 de la app cliente (las mismas de appsettings.json de la API).</summary>
+    private const string ClientId = "cunexpress-app";
+    private const string ClientSecretDemo = "secreto-de-demo";
+
     /// <summary>ModuloBase pide un metodo sincrono; todo el trabajo real es asincrono.</summary>
     public override void Ejecutar() => EjecutarAsync().GetAwaiter().GetResult();
 
     private static async Task EjecutarAsync()
     {
-        using var servidor = new ServidorApiLocal();
-        Console.WriteLine("   API local escuchando en un puerto libre de localhost (la \"cocina\" de la demo).");
+        // La direccion de la API es configuracion, no codigo: se puede cambiar sin recompilar.
+        var direccion = new Uri(Environment.GetEnvironmentVariable("CUNEXPRESS_API_URL") ?? "http://localhost:5070/");
+        if (!await ApiDisponible(direccion))
+        {
+            return;
+        }
 
         // Se crea UNA vez y se reutiliza (consejo del recurso). Cada manejador
         // envuelve al siguiente: Bitacora -> red. Es el patron Decorator de G4.
-        using HttpClient http = CrearCliente(servidor.Direccion);
+        using HttpClient http = CrearCliente(direccion);
 
-        await SeccionAnatomia(servidor.Direccion);
+        await SeccionAnatomia(direccion);
         await SeccionDeserializar(http);
         await SeccionCrud(http);
-        await SeccionErrores(servidor.Direccion, http);
+        await SeccionErrores(direccion, http);
         await SeccionOAuth(http);
         await SeccionCunExpress(http);
         await SeccionTaller(http);
@@ -193,7 +203,7 @@ public class Demo07Apis : ModuloBase
         var oauth = new ClienteOAuth(http);
         try
         {
-            await oauth.ObtenerTokenAsync(ServidorApiLocal.ClientIdDemo, "clave-adivinada");
+            await oauth.ObtenerTokenAsync(ClientId, "clave-adivinada");
         }
         catch (ApiException ex)
         {
@@ -201,9 +211,9 @@ public class Demo07Apis : ModuloBase
         }
 
         // El secreto se lee del entorno; en el codigo solo queda un valor de demo.
-        string secreto = Environment.GetEnvironmentVariable("CUNEXPRESS_CLIENT_SECRET") ?? ServidorApiLocal.ClientSecretDemo;
-        TokenAcceso token = await oauth.ObtenerTokenAsync(ServidorApiLocal.ClientIdDemo, secreto);
-        Console.WriteLine($"   Token recibido   -> {token.Tipo} {token.Valor[..6]}... (vence en {token.ExpiraEnSegundos / 60} min)");
+        string secreto = Environment.GetEnvironmentVariable("CUNEXPRESS_CLIENT_SECRET") ?? ClientSecretDemo;
+        TokenAcceso token = await oauth.ObtenerTokenAsync(ClientId, secreto);
+        Console.WriteLine($"   Token recibido   -> {token.Tipo} {token.Valor[..5]}...({token.Valor.Length} caracteres, vence en {token.ExpiraEnSegundos / 60} min)");
 
         using var solicitud = new HttpRequestMessage(HttpMethod.Get, "api/pedidos");
         solicitud.Headers.Authorization = new AuthenticationHeaderValue(token.Tipo, token.Valor);
@@ -324,6 +334,31 @@ public class Demo07Apis : ModuloBase
     }
 
     // ------------------------------------------------------------------------
+    /// <summary>
+    /// Antes de empezar, comprueba que la API este encendida. Si no lo esta,
+    /// explica como arrancarla en lugar de mostrar un error de red.
+    /// </summary>
+    private static async Task<bool> ApiDisponible(Uri direccion)
+    {
+        using var sonda = new HttpClient { BaseAddress = direccion, Timeout = TimeSpan.FromSeconds(3) };
+        try
+        {
+            using HttpResponseMessage r = await sonda.GetAsync("api/usuarios");
+            Console.WriteLine($"   Cliente de consola conectado a la Web API de CunExpress en {direccion}");
+            return true;
+        }
+        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
+        {
+            Console.WriteLine($"   La API no responde en {direccion}");
+            Console.WriteLine("   Este modulo es el CLIENTE; el SERVIDOR es otro proyecto que se arranca aparte:");
+            Console.WriteLine("      1. Abre otra terminal y ejecuta   api.bat      (Linux/macOS: ./api.sh)");
+            Console.WriteLine("      2. Espera el mensaje  Now listening on: http://localhost:5070");
+            Console.WriteLine("      3. Vuelve aqui y ejecuta         ejecutar.bat 7");
+            Nota("En Visual Studio: abre POO2.sln y marca los dos proyectos como proyectos de inicio.");
+            return false;
+        }
+    }
+
     /// <summary>
     /// Arma la cadena de manejadores: [Reintentos] -> Bitacora -> red.
     /// Cada uno envuelve al siguiente, como los decoradores de G4.

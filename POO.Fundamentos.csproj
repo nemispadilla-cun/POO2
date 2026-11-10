@@ -34,4 +34,12 @@
     <None Remove="Modulo05_GUI\CalculadoraWinForms\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- La Web API del modulo 7 (G7) es OTRO ejecutable (el SERVIDOR), en la
+         carpeta CunExpressApi/, y se arranca con api.bat. Este proyecto de consola es solo el CLIENTE. -->
+    <Compile Remove="CunExpressApi\**" />
+    <None Remove="CunExpressApi\**" />
+    <Content Remove="CunExpressApi\**" />
+  </ItemGroup>
+
 </Project>

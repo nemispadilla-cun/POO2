@@ -16,16 +16,32 @@ public class ApiException : Exception
 
     public HttpStatusCode Codigo { get; }
 
-    /// <summary>Lee el campo "error" del cuerpo, si la API lo envio.</summary>
+    /// <summary>
+    /// Saca el mensaje del cuerpo de la respuesta. Entiende dos formatos:
+    ///   {"error": "..."}                         el de nuestros controladores
+    ///   {"title": "...", "errors": {"Email": ["..."]}}   ProblemDetails, el 400
+    ///                                            automatico de ASP.NET Core (RFC 7807)
+    /// </summary>
     public static ApiException Desde(HttpStatusCode codigo, string cuerpo)
     {
         string mensaje = cuerpo;
         try
         {
             using JsonDocument doc = JsonDocument.Parse(cuerpo);
-            if (doc.RootElement.TryGetProperty("error", out JsonElement error))
+            JsonElement raiz = doc.RootElement;
+            if (raiz.TryGetProperty("error", out JsonElement error))
             {
                 mensaje = error.GetString() ?? cuerpo;
+            }
+            else if (raiz.TryGetProperty("errors", out JsonElement errores))
+            {
+                mensaje = string.Join("; ", errores.EnumerateObject()
+                                                  .SelectMany(campo => campo.Value.EnumerateArray())
+                                                  .Select(m => m.GetString()));
+            }
+            else if (raiz.TryGetProperty("title", out JsonElement titulo))
+            {
+                mensaje = titulo.GetString() ?? cuerpo;
             }
         }
         catch (JsonException)

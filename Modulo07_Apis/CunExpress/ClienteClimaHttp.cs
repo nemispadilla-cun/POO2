@@ -6,7 +6,7 @@ namespace Cun.Poo.Modulo07Apis.CunExpress;
 
 /// <summary>
 /// Implementacion de IClienteClima que llama a una API REST de clima
-/// (en la demo, el servidor local; en CunExpress, OpenWeatherMap).
+/// (en la demo, la Web API CunExpressApi; en el caso real, OpenWeatherMap).
 /// </summary>
 public class ClienteClimaHttp : IClienteClima
 {

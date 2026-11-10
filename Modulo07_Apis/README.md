@@ -2,16 +2,41 @@
 
 El documento maestro usa Java con `java.net.http.HttpClient` y **Gson**. Aquí el
 equivalente en C#: **`HttpClient`** y **`System.Text.Json`**, ambos incluidos en
-.NET. No se agrega ningún paquete nuevo (la sección 7 reutiliza EF Core del módulo 6).
+.NET.
+
+## Dos ejecutables: el cliente y el servidor
+
+Este módulo tiene **dos programas** en el mismo repositorio, que solo se hablan
+por HTTP y JSON. Así funciona en la vida real: el mesero y la cocina son personas
+distintas.
+
+| | Proyecto | Tipo | Cómo se arranca |
+|---|---|---|---|
+| **Servidor** | [`CunExpressApi/`](../CunExpressApi/README.md) (en la raíz del repo) | Aplicación web ASP.NET Core (Web API) | `api.bat` → `http://localhost:5070` |
+| **Cliente** | `Modulo07_Apis/` (dentro de `POO.Fundamentos`) | Consola | `ejecutar.bat 7` |
 
 ```bat
+:: Terminal 1: el servidor (dejarla abierta; Ctrl+C para apagarlo)
+api.bat
+
+:: Terminal 2: el cliente
 ejecutar.bat 7
 ```
 
-Para que la clase funcione **sin internet** y la salida sea siempre la misma, la
-demo levanta su propia API REST en `localhost` (`ServidorApiLocal`, "la cocina"
-del restaurante) y la consume. La sección 8 llama a **APIs reales** y solo corre
-si se activa:
+Mientras el cliente corre, la terminal del servidor muestra cada solicitud que le
+llega (`[api] POST /api/usuarios -> 201`). Con las dos terminales lado a lado se
+ven las dos puntas de la conversación. Si la API está apagada, el cliente lo
+detecta y explica cómo arrancarla.
+
+En **Visual Studio** se abre `POO2.sln`. Luego se da clic derecho en la solución,
+se elige *Configurar proyectos de inicio* → *Varios proyectos de inicio* y se
+marcan `CunExpressApi` y `POO.Fundamentos`.
+
+La API guarda los usuarios en memoria. Si el cliente se corre dos veces sin
+reiniciar la API, el usuario de la sección 3 recibe el Id 5, luego el 6, y así.
+Para que la salida sea igual a la de la presentación, reinicia la API.
+
+La sección 8 llama a **APIs reales** en internet y solo corre si se activa:
 
 ```bat
 set POO2_EN_VIVO=1 && ejecutar.bat 7
@@ -21,9 +46,8 @@ POO2_EN_VIVO=1 ./ejecutar.sh 7
 ```
 
 ```
-Modulo07_Apis/
+Modulo07_Apis/    (el CLIENTE)
 ├── Demo07Apis.cs
-├── Servidor/     ServidorApiLocal (la API de la demo, con HttpListener)
 ├── Modelos/      Usuario, TokenAcceso, PedidoEnvio, TasaRepresentativa
 ├── Clientes/     JsonApi, ClienteUsuarios (CRUD), ClienteOAuth, ClienteTrm, ApiException,
 │                 ManejadorBitacora y ManejadorReintentos (DelegatingHandler = Decorator)
@@ -68,9 +92,9 @@ Modulo07_Apis/
   se ignora sin error. El servidor guarda sus datos con **su propia** clase; los
   dos lados solo comparten el JSON.
 - **CRUD:** el `POST` no envía `id` (lo decide el servidor) y regresa `201 Created`
-  con la cabecera `Location: /api/usuarios/4`. `DELETE` regresa `204 No Content`
+  con la cabecera `Location: http://localhost:5070/api/usuarios/4`. `DELETE` regresa `204 No Content`
   y el `GET` siguiente, `404`. `ClienteUsuarios` convierte el 404 en `null`.
-- **Errores:** un email inválido da `400` y una `ApiException` con el mensaje del
+- **Errores:** un email inválido da `400` (la validación automática de `[ApiController]` con `[EmailAddress]`) y una `ApiException` con el mensaje del
   servidor. `/api/inestable` falla dos veces con `503` y el `ManejadorReintentos`
   lo logra al tercer intento. `/api/lento` se cancela a los 500 ms. Sin servidor
   no hay código HTTP: el error es de red (`ConnectionRefused`).
@@ -101,7 +125,7 @@ Modulo07_Apis/
 1. **Mapeo:** crea `UsuarioPlaceholder` con `[JsonPropertyName("name")]` y
    `[JsonPropertyName("username")]` y vuelve a correr la sección 8 con
    `POO2_EN_VIVO=1`. Ahora el nombre ya no debe salir vacío.
-2. **Recurso nuevo:** agrega al servidor `GET /api/productos/{codigo}` y escribe
+2. **Recurso nuevo:** agrega a `CunExpressApi` un `ProductosController` con `GET /api/productos/{codigo}` y escribe
    `ClienteProductos` con `ObtenerAsync` (404 → `null`).
 3. **Clima falso:** escribe `ClienteClimaFijo : IClienteClima`, que responda
    "lluvia intensa" en todas las zonas, y pásalo a `GestorRutas`. ¿Cuántas

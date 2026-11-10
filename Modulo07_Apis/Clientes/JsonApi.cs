@@ -4,9 +4,10 @@ using System.Text.Json;
 namespace Cun.Poo.Modulo07Apis.Clientes;
 
 /// <summary>
-/// Opciones de JSON que comparten los clientes y el servidor de la demo.
+/// Opciones de JSON que comparten los clientes de la demo.
 ///
-/// JsonSerializerDefaults.Web es la convencion de las APIs REST:
+/// JsonSerializerDefaults.Web es la convencion de las APIs REST (y la que usa
+/// ASP.NET Core en CunExpressApi):
 /// propiedades en camelCase (Nombre -> "nombre") y lectura sin distinguir
 /// mayusculas. Es el "new Gson()" del recurso, pero incluido en .NET.
 /// </summary>
