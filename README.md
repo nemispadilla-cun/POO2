@@ -13,10 +13,11 @@ español.
 | 4 | [Patrones de diseño](Modulo04_Patrones/README.md) | **G4** | Singleton, Factory Method, Builder, Adapter, Composite, Decorator, Observer, Strategy | `AppConfig`, `GeneradorReporte`, `WompiAdapter`, `CajaRegistradora` |
 | 5 | [Interfaces gráficas](Modulo05_GUI/README.md) | **G5** | Programación dirigida por eventos, componentes, contenedores, layouts, MVC, Windows Forms | `Boton`, `LayoutRejilla`, `ControladorCalculadora`, `FormCalculadora` |
 | 6 | [Persistencia de datos](Modulo06_Persistencia/README.md) | **G6** | Serialización JSON/XML/CSV, ORM, CRUD, LINQ vs SQL, transacciones, patrón DAO | `ArchivoJson`, `CursoDbContext`, `ServicioCompra`, `IReservaDao` |
+| 7 | [Conexión y consumo de APIs](Modulo07_Apis/README.md) | **G7** | HTTP y REST, `HttpClient`, JSON ↔ objetos, CRUD, códigos de estado, reintentos, OAuth2, datos abiertos | `ClienteUsuarios`, `ManejadorReintentos`, `GestorRutas`, `ClienteTrm` |
 
 ## Requisitos
 - **SDK de .NET 8 o superior** (`dotnet --version`). Descarga: <https://dotnet.microsoft.com/download>
-- Un solo paquete NuGet, desde el módulo 6: **Entity Framework Core con SQLite** (el ORM). `dotnet build` lo descarga solo la primera vez, así que esa primera compilación necesita internet. El resto sale de la biblioteca estándar.
+- Un solo paquete NuGet, desde el módulo 6: **Entity Framework Core con SQLite** (el ORM). `dotnet build` lo descarga solo la primera vez, así que esa primera compilación necesita internet. El resto sale de la biblioteca estándar (también el cliente HTTP del módulo 7). La sección 8 del módulo 7 usa internet solo si se activa con `POO2_EN_VIVO=1`.
 - La ventana del módulo 5 (`ventana.bat`) usa Windows Forms, así que solo abre en **Windows**. El resto del proyecto funciona en cualquier sistema.
 
 Si solo tienes .NET 9 o 10, cambia `<TargetFramework>` en `POO.Fundamentos.csproj`.
@@ -64,12 +65,13 @@ POO-Fundamentos-NET/
 ├── Modulo03_Colecciones/     -> G3
 ├── Modulo04_Patrones/        -> G4 (Creacionales/, Estructurales/, Comportamiento/)
 ├── Modulo05_GUI/             -> G5 (Componentes/, Mvc/, PuntoDeVenta/, CalculadoraWinForms/)
-└── Modulo06_Persistencia/    -> G6 (Archivos/, Entidades/, Datos/, Tienda/, Reservas/)
+├── Modulo06_Persistencia/    -> G6 (Archivos/, Entidades/, Datos/, Tienda/, Reservas/)
+└── Modulo07_Apis/           -> G7 (Servidor/, Modelos/, Clientes/, CunExpress/, Taller/)
 ```
 
 El propio menú es un ejemplo de lo que enseña: `Program` no conoce ninguna clase
 `DemoXX`, solo la interfaz `IModulo`. Y `ModuloBase` es la clase abstracta que
-evita que los seis módulos repitan los métodos `Seccion` y `Nota`. Es decir, la
+evita que los siete módulos repitan los métodos `Seccion` y `Nota`. Es decir, la
 Temática 2 está aplicada en la estructura misma del proyecto.
 
 ## De Java a C#: tabla de equivalencias
@@ -102,6 +104,8 @@ Este proyecto reemplaza al de Java. Si vienes del código anterior:
 | Gson | `System.Text.Json` | Incluido en .NET |
 | Hibernate / JPA (`EntityManager`) | Entity Framework Core (`DbContext`) | Ver tabla completa en el módulo 6 |
 | HQL | LINQ | Consultas sobre clases, revisadas por el compilador |
+| `java.net.http.HttpClient` | `System.Net.Http.HttpClient` | Ver tabla completa en el módulo 7 |
+| `CompletableFuture` | `Task<T>` + `async`/`await` | |
 | `System.out.println` | `Console.WriteLine` | |
 | `String.format` | interpolación `$"..."` | |
 | `List<X> l = new ArrayList<>()` | `List<X> l = [];` | Expresión de colección, C# 12 |
